@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit Converter — CalcHub</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <span class="logo">🧮</span>
+      CalcHub
+    </a>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <a class="back-link" href="../index.html">← All calculators</a>
+    <div class="calc-wrap">
+      <h1>Unit Converter</h1>
+      <p class="subtitle">Convert between length, weight and temperature units.</p>
+
+      <div class="field">
+        <label for="category">Category</label>
+        <select id="category">
+          <option value="length">Length</option>
+          <option value="weight">Weight</option>
+          <option value="temperature">Temperature</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="from-value">Value</label>
+          <input type="number" id="from-value" value="1" />
+        </div>
+        <div class="field">
+          <label for="from-unit">From</label>
+          <select id="from-unit"></select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="to-unit">To</label>
+        <select id="to-unit"></select>
+      </div>
+
+      <div class="result" id="result">
+        <div class="value" id="result-value">—</div>
+        <div class="label" id="result-label"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.
+  </footer>
+
+  <script src="../js/unit-converter.js"></script>
+</body>
+</html>

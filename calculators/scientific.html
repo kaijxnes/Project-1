@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scientific Calculator — CalcHub</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <span class="logo">🧮</span>
+      CalcHub
+    </a>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <a class="back-link" href="../index.html">← All calculators</a>
+    <div class="calc-wrap wide">
+      <h1>Scientific Calculator</h1>
+      <p class="subtitle">Trig, logs, powers &amp; more. Angles in degrees.</p>
+
+      <div class="display">
+        <div class="sub" id="expression">&nbsp;</div>
+        <div id="output">0</div>
+      </div>
+
+      <div class="pad" id="pad" style="grid-template-columns: repeat(5, 1fr);">
+        <button data-value="sin(">sin</button>
+        <button data-value="cos(">cos</button>
+        <button data-value="tan(">tan</button>
+        <button data-value="log(">log</button>
+        <button data-value="ln(">ln</button>
+
+        <button data-value="sqrt(">√</button>
+        <button data-value="^">x^y</button>
+        <button data-value="(">(</button>
+        <button data-value=")">)</button>
+        <button data-value="pi">π</button>
+
+        <button data-action="clear">AC</button>
+        <button data-action="delete">DEL</button>
+        <button data-value="%" class="op">%</button>
+        <button data-value="/" class="op">÷</button>
+        <button data-value="*" class="op">×</button>
+
+        <button data-value="7">7</button>
+        <button data-value="8">8</button>
+        <button data-value="9">9</button>
+        <button data-value="-" class="op">−</button>
+        <button data-value="+" class="op" style="grid-row: span 2;">+</button>
+
+        <button data-value="4">4</button>
+        <button data-value="5">5</button>
+        <button data-value="6">6</button>
+        <button data-value="1" style="grid-column: 1;">1</button>
+
+        <button data-value="2">2</button>
+        <button data-value="3">3</button>
+        <button data-value="0">0</button>
+        <button data-value=".">.</button>
+        <button data-action="equals" class="equals">=</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.
+  </footer>
+
+  <script src="../js/scientific.js"></script>
+</body>
+</html>

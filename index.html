@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CalcHub — All-in-one Calculators</title>
+  <meta name="description" content="A free collection of everyday calculators: basic math, scientific, BMI, tip, loan, percentage, age, unit conversion and more." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <span class="logo">🧮</span>
+      CalcHub
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Every calculator you need, in one place</h1>
+      <p>Fast, free, and works entirely in your browser — no sign-up, no ads getting in the way.</p>
+      <div class="search-box">
+        <input type="text" id="calc-search" placeholder="Search calculators (e.g. tip, BMI, loan)…" autocomplete="off" />
+      </div>
+    </section>
+
+    <section class="category" data-category="Math">
+      <h2>Math</h2>
+      <div class="grid">
+        <a class="card" href="calculators/basic.html" data-name="basic calculator arithmetic addition subtraction">
+          <span class="icon">➗</span>
+          <h3>Basic Calculator</h3>
+          <p>Everyday addition, subtraction, multiplication &amp; division.</p>
+        </a>
+        <a class="card" href="calculators/scientific.html" data-name="scientific calculator trig log power">
+          <span class="icon">📐</span>
+          <h3>Scientific Calculator</h3>
+          <p>Trig, logarithms, powers, roots and more.</p>
+        </a>
+        <a class="card" href="calculators/percentage.html" data-name="percentage calculator percent of change">
+          <span class="icon">💯</span>
+          <h3>Percentage Calculator</h3>
+          <p>Find percentages, increases, decreases &amp; differences.</p>
+        </a>
+        <a class="card" href="calculators/unit-converter.html" data-name="unit converter length weight temperature">
+          <span class="icon">📏</span>
+          <h3>Unit Converter</h3>
+          <p>Convert length, weight and temperature units.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="category" data-category="Finance">
+      <h2>Finance</h2>
+      <div class="grid">
+        <a class="card" href="calculators/tip.html" data-name="tip calculator bill split restaurant gratuity">
+          <span class="icon">🍽️</span>
+          <h3>Tip Calculator</h3>
+          <p>Split the bill and work out the right tip.</p>
+        </a>
+        <a class="card" href="calculators/loan.html" data-name="loan mortgage calculator monthly payment interest">
+          <span class="icon">🏦</span>
+          <h3>Loan / Mortgage Calculator</h3>
+          <p>Estimate monthly payments and total interest.</p>
+        </a>
+        <a class="card" href="calculators/discount.html" data-name="discount calculator sale price savings">
+          <span class="icon">🏷️</span>
+          <h3>Discount Calculator</h3>
+          <p>Work out sale prices and how much you save.</p>
+        </a>
+        <a class="card" href="calculators/compound-interest.html" data-name="compound interest calculator savings investment growth">
+          <span class="icon">📈</span>
+          <h3>Compound Interest</h3>
+          <p>See how savings or investments grow over time.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="category" data-category="Health">
+      <h2>Health</h2>
+      <div class="grid">
+        <a class="card" href="calculators/bmi.html" data-name="bmi calculator body mass index weight height">
+          <span class="icon">⚖️</span>
+          <h3>BMI Calculator</h3>
+          <p>Check your body mass index from height &amp; weight.</p>
+        </a>
+        <a class="card" href="calculators/bmr.html" data-name="bmr calorie calculator daily energy metabolic rate">
+          <span class="icon">🔥</span>
+          <h3>Calorie (BMR) Calculator</h3>
+          <p>Estimate your daily calorie needs.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="category" data-category="Everyday">
+      <h2>Everyday</h2>
+      <div class="grid">
+        <a class="card" href="calculators/age.html" data-name="age calculator date of birth years months days">
+          <span class="icon">🎂</span>
+          <h3>Age Calculator</h3>
+          <p>Find your exact age or the days between two dates.</p>
+        </a>
+      </div>
+    </section>
+
+    <p id="no-results" class="hidden" style="text-align:center; color: var(--text-dim); margin-top: 2rem;">
+      No calculators match your search.
+    </p>
+  </main>
+
+  <footer class="site-footer">
+    Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

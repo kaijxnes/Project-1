@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Calculator — CalcHub</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <span class="logo">🧮</span>
+      CalcHub
+    </a>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <a class="back-link" href="../index.html">← All calculators</a>
+    <div class="calc-wrap">
+      <h1>Basic Calculator</h1>
+      <p class="subtitle">Quick everyday arithmetic.</p>
+
+      <div class="display">
+        <div class="sub" id="expression">&nbsp;</div>
+        <div id="output">0</div>
+      </div>
+
+      <div class="pad" id="pad">
+        <button data-action="clear">AC</button>
+        <button data-action="delete">DEL</button>
+        <button data-action="percent" class="op">%</button>
+        <button data-value="/" class="op">÷</button>
+
+        <button data-value="7">7</button>
+        <button data-value="8">8</button>
+        <button data-value="9">9</button>
+        <button data-value="*" class="op">×</button>
+
+        <button data-value="4">4</button>
+        <button data-value="5">5</button>
+        <button data-value="6">6</button>
+        <button data-value="-" class="op">−</button>
+
+        <button data-value="1">1</button>
+        <button data-value="2">2</button>
+        <button data-value="3">3</button>
+        <button data-value="+" class="op">+</button>
+
+        <button data-value="0" class="wide">0</button>
+        <button data-value=".">.</button>
+        <button data-action="equals" class="equals">=</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.
+  </footer>
+
+  <script src="../js/basic.js"></script>
+</body>
+</html>

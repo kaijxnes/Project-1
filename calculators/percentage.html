@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Percentage Calculator — CalcHub</title>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../index.html">
+      <span class="logo">🧮</span>
+      CalcHub
+    </a>
+    <nav>
+      <a href="../index.html">Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <a class="back-link" href="../index.html">← All calculators</a>
+    <div class="calc-wrap">
+      <h1>Percentage Calculator</h1>
+      <p class="subtitle">Three common percentage questions, answered instantly.</p>
+
+      <div class="field">
+        <label for="mode">What do you want to work out?</label>
+        <select id="mode">
+          <option value="of">What is X% of Y?</option>
+          <option value="isWhatPercent">X is what percent of Y?</option>
+          <option value="change">Percent change from X to Y</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label id="label-x" for="value-x">X</label>
+          <input type="number" id="value-x" placeholder="e.g. 20" />
+        </div>
+        <div class="field">
+          <label id="label-y" for="value-y">Y</label>
+          <input type="number" id="value-y" placeholder="e.g. 50" />
+        </div>
+      </div>
+
+      <button class="btn" id="calc-btn">Calculate</button>
+
+      <div class="result hidden" id="result">
+        <div class="value" id="result-value">—</div>
+        <div class="label" id="result-label"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.
+  </footer>
+
+  <script src="../js/percentage.js"></script>
+</body>
+</html>
