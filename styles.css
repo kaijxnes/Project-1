@@ -1,0 +1,133 @@
+:root {
+  --bg-1: #1f2233;
+  --bg-2: #12141f;
+  --calc-bg: #262a40;
+  --display-bg: #1a1d2b;
+  --key-num-bg: #343954;
+  --key-num-bg-hover: #3d436180;
+  --key-fn-bg: #4a4f70;
+  --key-fn-bg-hover: #5a6086;
+  --key-op-bg: #ff9f43;
+  --key-op-bg-hover: #ffb267;
+  --key-eq-bg: #ff5e62;
+  --key-eq-bg-hover: #ff7a7d;
+  --text-main: #f4f5fb;
+  --text-muted: #8b8fae;
+  --shadow: rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, var(--bg-1), var(--bg-2));
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 16px;
+}
+
+.calculator {
+  width: 100%;
+  max-width: 360px;
+  background: var(--calc-bg);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 20px 50px var(--shadow);
+}
+
+.display {
+  background: var(--display-bg);
+  border-radius: 16px;
+  padding: 24px 18px 16px;
+  margin-bottom: 18px;
+  text-align: right;
+  overflow: hidden;
+}
+
+.display-history {
+  min-height: 20px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.display-current {
+  color: var(--text-main);
+  font-size: 2.6rem;
+  font-weight: 600;
+  overflow-x: auto;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.key {
+  border: none;
+  border-radius: 14px;
+  padding: 18px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main);
+  background: var(--key-num-bg);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.08s ease;
+}
+
+.key:hover {
+  background: var(--key-num-bg-hover);
+}
+
+.key:active {
+  transform: scale(0.95);
+}
+
+.key-fn {
+  background: var(--key-fn-bg);
+}
+
+.key-fn:hover {
+  background: var(--key-fn-bg-hover);
+}
+
+.key-op {
+  background: var(--key-op-bg);
+  color: #2a1600;
+}
+
+.key-op:hover {
+  background: var(--key-op-bg-hover);
+}
+
+.key-eq {
+  background: var(--key-eq-bg);
+}
+
+.key-eq:hover {
+  background: var(--key-eq-bg-hover);
+}
+
+.key-zero {
+  grid-column: span 2;
+}
+
+@media (max-width: 380px) {
+  .display-current {
+    font-size: 2rem;
+  }
+
+  .key {
+    padding: 14px 0;
+    font-size: 1.05rem;
+  }
+}
