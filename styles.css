@@ -494,6 +494,28 @@ hr.divider {
   line-height: 1.4;
 }
 
+/* ---------- Footer ---------- */
+
+.site-footer {
+  margin-top: 32px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.site-footer a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}
+
 @media (max-width: 380px) {
   .display-current {
     font-size: 2rem;
