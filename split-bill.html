@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Split Bill Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="back-link" href="index.html">← All calculators</a>
+      <h1 class="page-title">Split Bill</h1>
+      <p class="page-subtitle">Split evenly with tip%, or itemize an uneven split per person.</p>
+    </header>
+
+    <main class="tool">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="equal">Equal split</button>
+        <button class="tab" data-tab="uneven">Itemized split</button>
+      </div>
+
+      <div class="tab-panel active" data-panel="equal">
+        <div class="field-row">
+          <div class="field">
+            <label for="eq-bill">Bill amount</label>
+            <input type="number" id="eq-bill" placeholder="0.00" step="any">
+          </div>
+          <div class="field">
+            <label for="eq-tip">Tip %</label>
+            <input type="number" id="eq-tip" placeholder="0" step="any" value="0">
+          </div>
+        </div>
+        <div class="field">
+          <label for="eq-people">Number of people</label>
+          <input type="number" id="eq-people" placeholder="1" step="1" min="1" value="2">
+        </div>
+        <div class="result-box">
+          <div class="result-grid">
+            <div class="result-row"><span class="r-label">Tip amount</span><span class="r-value" id="eq-tip-amount">£0.00</span></div>
+            <div class="result-row"><span class="r-label">Total (bill + tip)</span><span class="r-value" id="eq-total">£0.00</span></div>
+            <hr class="divider">
+            <div class="result-row highlight"><span class="r-label">Each person pays</span><span class="r-value" id="eq-per-person">£0.00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="uneven">
+        <p class="tool-hint">Enter what each person ordered. Tip% is applied proportionally to each person's share.</p>
+        <div class="field">
+          <label for="un-tip">Tip %</label>
+          <input type="number" id="un-tip" placeholder="0" step="any" value="0">
+        </div>
+        <div class="dyn-table-head">
+          <span class="row-index">#</span>
+          <span class="grow">Name</span>
+          <span class="fixed-sm">Amount</span>
+          <span style="width:34px"></span>
+        </div>
+        <div class="dyn-list" id="un-rows"></div>
+        <button class="btn btn-ghost" id="un-add-row" type="button">+ Add person</button>
+
+        <div class="result-box" style="margin-top:16px;">
+          <div class="result-grid">
+            <div class="result-row"><span class="r-label">Bill subtotal</span><span class="r-value" id="un-subtotal">£0.00</span></div>
+            <div class="result-row"><span class="r-label">Tip amount</span><span class="r-value" id="un-tip-amount">£0.00</span></div>
+            <div class="result-row highlight"><span class="r-label">Total</span><span class="r-value" id="un-total">£0.00</span></div>
+          </div>
+        </div>
+
+        <div class="table-scroll" style="margin-top:16px;">
+          <table class="out-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Subtotal</th>
+                <th>Tip share</th>
+                <th>Total owed</th>
+              </tr>
+            </thead>
+            <tbody id="un-out-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="split-bill.js"></script>
+</body>
+</html>

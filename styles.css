@@ -1,0 +1,607 @@
+:root {
+  --bg-1: #1f2233;
+  --bg-2: #12141f;
+  --calc-bg: #262a40;
+  --display-bg: #1a1d2b;
+  --key-num-bg: #343954;
+  --key-num-bg-hover: #3d436180;
+  --key-fn-bg: #4a4f70;
+  --key-fn-bg-hover: #5a6086;
+  --key-op-bg: #ff9f43;
+  --key-op-bg-hover: #ffb267;
+  --key-eq-bg: #ff5e62;
+  --key-eq-bg-hover: #ff7a7d;
+  --text-main: #f4f5fb;
+  --text-muted: #8b8fae;
+  --shadow: rgba(0, 0, 0, 0.35);
+  --input-bg: #1a1d2b;
+  --border: #3a3f5c;
+  --accent: #ff9f43;
+  --accent-hover: #ffb267;
+  --good: #4ade80;
+  --bad: #ff5e62;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: radial-gradient(circle at top, var(--bg-1), var(--bg-2));
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  padding: 16px;
+}
+
+body:has(> .calculator),
+body:has(> .page) {
+  align-items: center;
+}
+
+/* ---------- Shared page chrome ---------- */
+
+.page {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 24px 0 48px;
+}
+
+.site-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  transition: color 0.15s ease;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+.page-title {
+  color: var(--text-main);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.page-subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 8px 0 0;
+}
+
+/* ---------- Tool card ---------- */
+
+.tool {
+  background: var(--calc-bg);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 50px var(--shadow);
+}
+
+.tool + .tool {
+  margin-top: 20px;
+}
+
+.tool-section-title {
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 14px;
+}
+
+.tool-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: -6px 0 16px;
+  line-height: 1.4;
+}
+
+/* ---------- Tabs ---------- */
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  flex: 1 1 auto;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 14px;
+  background: var(--key-num-bg);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  background: var(--key-num-bg-hover);
+}
+
+.tab.active {
+  background: var(--accent);
+  color: #2a1600;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+}
+
+/* ---------- Form fields ---------- */
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 6px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 480px) {
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.08s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #2a1600;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+.btn-ghost {
+  background: var(--key-fn-bg);
+  color: var(--text-main);
+}
+
+.btn-ghost:hover {
+  background: var(--key-fn-bg-hover);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-remove {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-remove:hover {
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+/* ---------- Results ---------- */
+
+.result-box {
+  background: var(--display-bg);
+  border-radius: 14px;
+  padding: 18px;
+  margin-top: 4px;
+}
+
+.result-hero {
+  text-align: center;
+  padding: 10px 0 4px;
+}
+
+.result-hero .value {
+  color: var(--text-main);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.result-hero .label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.result-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+
+.result-row .r-label {
+  color: var(--text-muted);
+}
+
+.result-row .r-value {
+  color: var(--text-main);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-row.highlight .r-value {
+  color: var(--accent);
+  font-size: 1.15rem;
+}
+
+.result-row.good .r-value {
+  color: var(--good);
+}
+
+.result-row.bad .r-value {
+  color: var(--bad);
+}
+
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
+
+/* ---------- Dynamic rows (growth series, split bill, grades) ---------- */
+
+.dyn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.dyn-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dyn-row input {
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-family: inherit;
+  min-width: 0;
+}
+
+.dyn-row input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.dyn-row .grow {
+  flex: 1 1 auto;
+}
+
+.dyn-row .fixed-sm {
+  flex: 0 0 90px;
+}
+
+.dyn-row .row-index {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  flex: 0 0 22px;
+  text-align: center;
+}
+
+.dyn-table-head {
+  display: flex;
+  gap: 8px;
+  padding: 0 0 4px;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* ---------- Simple output table (growth results) ---------- */
+
+.out-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.out-table th,
+.out-table td {
+  text-align: right;
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-main);
+}
+
+.out-table th:first-child,
+.out-table td:first-child {
+  text-align: left;
+  color: var(--text-muted);
+}
+
+.out-table thead th {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+}
+
+.out-table .pos {
+  color: var(--good);
+}
+
+.out-table .neg {
+  color: var(--bad);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+/* ---------- Home hub ---------- */
+
+.hub {
+  max-width: 900px;
+}
+
+.hub-hero {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.hub-hero h1 {
+  color: var(--text-main);
+  font-size: 2rem;
+  margin: 0 0 8px;
+}
+
+.hub-hero p {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.hub-group-title {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 28px 0 12px;
+}
+
+.hub-group-title:first-of-type {
+  margin-top: 0;
+}
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.hub-card {
+  display: block;
+  background: var(--calc-bg);
+  border-radius: 16px;
+  padding: 18px;
+  text-decoration: none;
+  box-shadow: 0 12px 30px var(--shadow);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.hub-card:hover {
+  transform: translateY(-3px);
+  background: #2d3149;
+}
+
+.hub-card .icon {
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.hub-card .title {
+  color: var(--text-main);
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.hub-card .desc {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 380px) {
+  .display-current {
+    font-size: 2rem;
+  }
+
+  .key {
+    padding: 14px 0;
+    font-size: 1.05rem;
+  }
+}
+
+.calculator {
+  width: 100%;
+  max-width: 360px;
+  background: var(--calc-bg);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 20px 50px var(--shadow);
+}
+
+.display {
+  background: var(--display-bg);
+  border-radius: 16px;
+  padding: 24px 18px 16px;
+  margin-bottom: 18px;
+  text-align: right;
+  overflow: hidden;
+}
+
+.display-history {
+  min-height: 20px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.display-current {
+  color: var(--text-main);
+  font-size: 2.6rem;
+  font-weight: 600;
+  overflow-x: auto;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.key {
+  border: none;
+  border-radius: 14px;
+  padding: 18px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-main);
+  background: var(--key-num-bg);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.08s ease;
+}
+
+.key:hover {
+  background: var(--key-num-bg-hover);
+}
+
+.key:active {
+  transform: scale(0.95);
+}
+
+.key-fn {
+  background: var(--key-fn-bg);
+}
+
+.key-fn:hover {
+  background: var(--key-fn-bg-hover);
+}
+
+.key-op {
+  background: var(--key-op-bg);
+  color: #2a1600;
+}
+
+.key-op:hover {
+  background: var(--key-op-bg-hover);
+}
+
+.key-eq {
+  background: var(--key-eq-bg);
+}
+
+.key-eq:hover {
+  background: var(--key-eq-bg-hover);
+}
+
+.key-zero {
+  grid-column: span 2;
+}
+
+@media (max-width: 380px) {
+  .display-current {
+    font-size: 2rem;
+  }
+
+  .key {
+    padding: 14px 0;
+    font-size: 1.05rem;
+  }
+}

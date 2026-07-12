@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hold % / GGR / NGR Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="back-link" href="index.html">← All calculators</a>
+      <h1 class="page-title">Hold % / GGR / NGR</h1>
+      <p class="page-subtitle">Gaming/betting revenue calculator: stakes and payouts → hold%, GGR, and NGR after bonuses &amp; duty.</p>
+    </header>
+
+    <main class="tool">
+      <p class="tool-section-title">Handle &amp; hold</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="stakes">Total stakes (handle)</label>
+          <input type="number" id="stakes" placeholder="0.00" step="any">
+        </div>
+        <div class="field">
+          <label for="payouts">Total payouts (winnings)</label>
+          <input type="number" id="payouts" placeholder="0.00" step="any">
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-grid">
+          <div class="result-row highlight"><span class="r-label">GGR (Stakes − Payouts)</span><span class="r-value" id="ggr">£0.00</span></div>
+          <div class="result-row highlight"><span class="r-label">Hold % (GGR / Stakes)</span><span class="r-value" id="hold">0%</span></div>
+        </div>
+      </div>
+    </main>
+
+    <main class="tool">
+      <p class="tool-section-title">Deductions to NGR</p>
+      <p class="tool-hint">Bonuses/free bets and other costs are deducted from GGR. Duty is applied to GGR (typical remote gaming duty basis).</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="bonuses">Bonuses / free bets cost</label>
+          <input type="number" id="bonuses" placeholder="0.00" step="any">
+        </div>
+        <div class="field">
+          <label for="other-costs">Other costs (processing etc.)</label>
+          <input type="number" id="other-costs" placeholder="0.00" step="any">
+        </div>
+      </div>
+      <div class="field">
+        <label for="duty">Duty / tax rate on GGR (%)</label>
+        <input type="number" id="duty" placeholder="21" step="any" value="21">
+      </div>
+
+      <div class="result-box">
+        <div class="result-grid">
+          <div class="result-row"><span class="r-label">NGR (GGR − bonuses − other costs)</span><span class="r-value" id="ngr">£0.00</span></div>
+          <div class="result-row"><span class="r-label">Duty payable</span><span class="r-value" id="duty-amount">£0.00</span></div>
+          <hr class="divider">
+          <div class="result-row highlight"><span class="r-label">Net result after duty</span><span class="r-value" id="net-result">£0.00</span></div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="hold-ggr-ngr.js"></script>
+</body>
+</html>
