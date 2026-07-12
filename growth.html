@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YoY / MoM Growth Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="back-link" href="index.html">← All calculators</a>
+      <h1 class="page-title">YoY / MoM Growth</h1>
+      <p class="page-subtitle">Enter a monthly series to get month-on-month change, year-on-year change (once 12+ months are entered), and cumulative growth.</p>
+    </header>
+
+    <main class="tool">
+      <div class="dyn-table-head">
+        <span class="row-index">#</span>
+        <span class="grow">Label</span>
+        <span class="fixed-sm">Value</span>
+        <span style="width:34px"></span>
+      </div>
+      <div class="dyn-list" id="rows"></div>
+      <button class="btn btn-ghost" id="add-row" type="button">+ Add month</button>
+
+      <div class="result-box" style="margin-top:18px;">
+        <div class="result-grid">
+          <div class="result-row highlight"><span class="r-label">Cumulative growth (first → last)</span><span class="r-value" id="cumulative">0%</span></div>
+        </div>
+      </div>
+
+      <div class="table-scroll" style="margin-top:16px;">
+        <table class="out-table">
+          <thead>
+            <tr>
+              <th>Label</th>
+              <th>Value</th>
+              <th>MoM %</th>
+              <th>YoY %</th>
+            </tr>
+          </thead>
+          <tbody id="out-body"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="growth.js"></script>
+</body>
+</html>

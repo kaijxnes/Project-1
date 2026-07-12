@@ -3,41 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculator</title>
+<title>Calculator Hub</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="calculator">
-    <div class="display">
-      <div class="display-history" id="history"></div>
-      <div class="display-current" id="current">0</div>
+  <div class="page hub">
+    <div class="hub-hero">
+      <h1>🧮 Calculator Hub</h1>
+      <p>A collection of everyday and business calculators.</p>
     </div>
-    <div class="keys">
-      <button class="key key-fn" data-action="clear">AC</button>
-      <button class="key key-fn" data-action="delete">DEL</button>
-      <button class="key key-fn" data-action="percent">%</button>
-      <button class="key key-op" data-action="operator" data-value="÷">÷</button>
 
-      <button class="key key-num" data-action="number" data-value="7">7</button>
-      <button class="key key-num" data-action="number" data-value="8">8</button>
-      <button class="key key-num" data-action="number" data-value="9">9</button>
-      <button class="key key-op" data-action="operator" data-value="×">×</button>
-
-      <button class="key key-num" data-action="number" data-value="4">4</button>
-      <button class="key key-num" data-action="number" data-value="5">5</button>
-      <button class="key key-num" data-action="number" data-value="6">6</button>
-      <button class="key key-op" data-action="operator" data-value="−">−</button>
-
-      <button class="key key-num" data-action="number" data-value="1">1</button>
-      <button class="key key-num" data-action="number" data-value="2">2</button>
-      <button class="key key-num" data-action="number" data-value="3">3</button>
-      <button class="key key-op" data-action="operator" data-value="+">+</button>
-
-      <button class="key key-num key-zero" data-action="number" data-value="0">0</button>
-      <button class="key key-num" data-action="decimal">.</button>
-      <button class="key key-eq" data-action="equals">=</button>
+    <div class="hub-group-title">General</div>
+    <div class="hub-grid">
+      <a class="hub-card" href="basic.html">
+        <span class="icon">🔢</span>
+        <div class="title">Basic Calculator</div>
+        <div class="desc">Standard arithmetic with keyboard support.</div>
+      </a>
     </div>
-  </main>
-  <script src="script.js"></script>
+
+    <div class="hub-group-title">Business &amp; Analyst</div>
+    <div class="hub-grid">
+      <a class="hub-card" href="margin-markup.html">
+        <span class="icon">📊</span>
+        <div class="title">Margin vs Markup</div>
+        <div class="desc">Cost + margin% or markup% → sell price, and back-solve either way.</div>
+      </a>
+      <a class="hub-card" href="hold-ggr-ngr.html">
+        <span class="icon">🎰</span>
+        <div class="title">Hold % / GGR / NGR</div>
+        <div class="desc">Stakes and payouts → hold%, GGR, and NGR after bonuses &amp; duty.</div>
+      </a>
+      <a class="hub-card" href="growth.html">
+        <span class="icon">📈</span>
+        <div class="title">YoY / MoM Growth</div>
+        <div class="desc">Feed in a monthly series, get month-on-month and year-on-year change.</div>
+      </a>
+      <a class="hub-card" href="cagr.html">
+        <span class="icon">🧮</span>
+        <div class="title">CAGR</div>
+        <div class="desc">Compound annual growth rate between a start and end value.</div>
+      </a>
+      <a class="hub-card" href="vat.html">
+        <span class="icon">🧾</span>
+        <div class="title">Tax / VAT</div>
+        <div class="desc">Add or remove VAT, plus a progressive income tax band split.</div>
+      </a>
+    </div>
+
+    <div class="hub-group-title">Everyday</div>
+    <div class="hub-grid">
+      <a class="hub-card" href="tip.html">
+        <span class="icon">🍽️</span>
+        <div class="title">Tip Calculator</div>
+        <div class="desc">Bill + tip% + people → tip amount and per-person total.</div>
+      </a>
+      <a class="hub-card" href="discount.html">
+        <span class="icon">🏷️</span>
+        <div class="title">Discount Calculator</div>
+        <div class="desc">Original price + % off → final price, including stacked discounts.</div>
+      </a>
+      <a class="hub-card" href="split-bill.html">
+        <span class="icon">🧑‍🤝‍🧑</span>
+        <div class="title">Split Bill</div>
+        <div class="desc">Equal split with tip%, or an itemized uneven split per person.</div>
+      </a>
+      <a class="hub-card" href="grade.html">
+        <span class="icon">🎓</span>
+        <div class="title">Grade / Score</div>
+        <div class="desc">Score out of total → % and letter grade, plus weighted averages.</div>
+      </a>
+    </div>
+  </div>
 </body>
 </html>
