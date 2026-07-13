@@ -2,11 +2,11 @@ const peopleRowsEl = document.getElementById("people-rows");
 const billRowsEl = document.getElementById("bill-rows");
 
 let peopleMode = "pct";
-let currencySymbol = "£";
+const CURRENCY_MARK = "£/$/€";
 
 function fmtMoney(value) {
-  if (!isFinite(value)) return currencySymbol + "0.00";
-  return currencySymbol + value.toFixed(2);
+  if (!isFinite(value)) return CURRENCY_MARK + "0.00";
+  return CURRENCY_MARK + value.toFixed(2);
 }
 
 function fmtPercent(value) {
@@ -17,23 +17,9 @@ function fmtPercent(value) {
 function updateIncomeColumnLabel() {
   const isIncome = peopleMode === "income";
   document.getElementById("people-col-label").textContent = isIncome
-    ? `Income (${currencySymbol})`
+    ? `Income (${CURRENCY_MARK})`
     : "Share %";
 }
-
-/* ---------- Currency toggle ---------- */
-function setCurrency(symbol) {
-  currencySymbol = symbol;
-  document.querySelectorAll('.tab[data-currency]').forEach((tab) => {
-    tab.classList.toggle("active", tab.dataset.currency === symbol);
-  });
-  updateIncomeColumnLabel();
-  calculate();
-}
-
-document.querySelectorAll('.tab[data-currency]').forEach((tab) => {
-  tab.addEventListener("click", () => setCurrency(tab.dataset.currency));
-});
 
 /* ---------- Mode toggle ---------- */
 function setMode(mode) {
