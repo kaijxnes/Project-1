@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Percentage Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="back-link" href="index.html">← All calculators</a>
+      <h1 class="page-title">Percentage Calculator</h1>
+      <p class="page-subtitle">Three common percentage questions, answered directly.</p>
+    </header>
+
+    <main class="tool">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="of">X% of Y</button>
+        <button class="tab" data-tab="is-what">X is what % of Y</button>
+        <button class="tab" data-tab="change">% change</button>
+      </div>
+
+      <div class="tab-panel active" data-panel="of">
+        <p class="tool-hint">What is X% of Y?</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="of-pct">Percentage (X)</label>
+            <input type="number" id="of-pct" placeholder="0" step="any">
+          </div>
+          <div class="field">
+            <label for="of-value">Of value (Y)</label>
+            <input type="number" id="of-value" placeholder="0.00" step="any">
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-hero">
+            <div class="value" id="of-result">0</div>
+            <div class="label">Result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="is-what">
+        <p class="tool-hint">X is what percent of Y?</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="iw-x">X</label>
+            <input type="number" id="iw-x" placeholder="0.00" step="any">
+          </div>
+          <div class="field">
+            <label for="iw-y">Y</label>
+            <input type="number" id="iw-y" placeholder="0.00" step="any">
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-hero">
+            <div class="value" id="iw-result">0%</div>
+            <div class="label">Result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="change">
+        <p class="tool-hint">Percentage change from one value to another.</p>
+        <div class="field-row">
+          <div class="field">
+            <label for="ch-from">From</label>
+            <input type="number" id="ch-from" placeholder="0.00" step="any">
+          </div>
+          <div class="field">
+            <label for="ch-to">To</label>
+            <input type="number" id="ch-to" placeholder="0.00" step="any">
+          </div>
+        </div>
+        <div class="result-box">
+          <div class="result-hero">
+            <div class="value" id="ch-result">0%</div>
+            <div class="label" id="ch-label">Change</div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.</p>
+      <p>Built by <a href="mailto:kaijxnes@gmail.com">Kai Jones</a></p>
+    </footer>
+  </div>
+  <script src="percent.js"></script>
+</body>
+</html>

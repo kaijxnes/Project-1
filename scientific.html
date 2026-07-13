@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="back-link" href="index.html">← All calculators</a>
+      <h1 class="page-title">Scientific Calculator</h1>
+    </header>
+    <main class="calculator calculator-sci">
+      <div class="display">
+        <div class="display-history" id="history"></div>
+        <div class="display-current" id="current">0</div>
+      </div>
+      <div class="keys keys-sci">
+        <button class="key key-fn key-mode active" data-action="angle-mode" data-value="deg">DEG</button>
+        <button class="key key-fn key-mode" data-action="angle-mode" data-value="rad">RAD</button>
+        <button class="key key-fn" data-action="unary" data-value="sin">sin</button>
+        <button class="key key-fn" data-action="unary" data-value="cos">cos</button>
+
+        <button class="key key-fn" data-action="unary" data-value="tan">tan</button>
+        <button class="key key-fn" data-action="unary" data-value="sqrt">√</button>
+        <button class="key key-fn" data-action="unary" data-value="square">x²</button>
+        <button class="key key-fn" data-action="operator" data-value="^">xʸ</button>
+
+        <button class="key key-fn" data-action="unary" data-value="log">log</button>
+        <button class="key key-fn" data-action="unary" data-value="ln">ln</button>
+        <button class="key key-fn" data-action="constant" data-value="pi">π</button>
+        <button class="key key-fn" data-action="constant" data-value="e">e</button>
+
+        <button class="key key-fn" data-action="clear">AC</button>
+        <button class="key key-fn" data-action="delete">DEL</button>
+        <button class="key key-fn" data-action="percent">%</button>
+        <button class="key key-op" data-action="operator" data-value="÷">÷</button>
+
+        <button class="key key-num" data-action="number" data-value="7">7</button>
+        <button class="key key-num" data-action="number" data-value="8">8</button>
+        <button class="key key-num" data-action="number" data-value="9">9</button>
+        <button class="key key-op" data-action="operator" data-value="×">×</button>
+
+        <button class="key key-num" data-action="number" data-value="4">4</button>
+        <button class="key key-num" data-action="number" data-value="5">5</button>
+        <button class="key key-num" data-action="number" data-value="6">6</button>
+        <button class="key key-op" data-action="operator" data-value="−">−</button>
+
+        <button class="key key-num" data-action="number" data-value="1">1</button>
+        <button class="key key-num" data-action="number" data-value="2">2</button>
+        <button class="key key-num" data-action="number" data-value="3">3</button>
+        <button class="key key-op" data-action="operator" data-value="+">+</button>
+
+        <button class="key key-num key-zero" data-action="number" data-value="0">0</button>
+        <button class="key key-num" data-action="decimal">.</button>
+        <button class="key key-eq" data-action="equals">=</button>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.</p>
+      <p>Built by <a href="mailto:kaijxnes@gmail.com">Kai Jones</a></p>
+    </footer>
+  </div>
+  <script src="scientific.js"></script>
+</body>
+</html>

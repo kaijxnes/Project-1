@@ -605,6 +605,20 @@ hr.divider {
   background: var(--key-op-bg-hover);
 }
 
+.calculator-sci {
+  max-width: 400px;
+}
+
+.keys-sci .key {
+  font-size: 1rem;
+  padding: 16px 0;
+}
+
+.key-mode.active {
+  background: var(--accent);
+  color: #2a1600;
+}
+
 .key-eq {
   background: var(--key-eq-bg);
 }
