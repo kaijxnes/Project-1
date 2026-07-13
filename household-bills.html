@@ -22,12 +22,16 @@
     </header>
 
     <main class="tool">
-      <p class="tool-section-title">People &amp; contribution %</p>
-      <p class="tool-hint">Shares are split proportionally, so they don't need to add up to exactly 100%.</p>
+      <p class="tool-section-title">People &amp; contribution</p>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-mode="pct" type="button">By %</button>
+        <button class="tab" data-mode="income" type="button">By income</button>
+      </div>
+      <p class="tool-hint" id="people-mode-hint">Shares are split proportionally, so they don't need to add up to exactly 100%.</p>
       <div class="dyn-table-head">
         <span class="row-index">#</span>
         <span class="grow">Name</span>
-        <span class="fixed-sm">Share %</span>
+        <span class="fixed-sm" id="people-col-label">Share %</span>
         <span style="width:34px"></span>
       </div>
       <div class="dyn-list" id="people-rows"></div>
@@ -35,7 +39,7 @@
 
       <div class="result-box" style="margin-top:16px;">
         <div class="result-grid">
-          <div class="result-row"><span class="r-label">Total share entered</span><span class="r-value" id="people-total-pct">0%</span></div>
+          <div class="result-row"><span class="r-label" id="people-total-label">Total share entered</span><span class="r-value" id="people-total">0%</span></div>
         </div>
       </div>
     </main>
@@ -66,6 +70,7 @@
           <thead>
             <tr>
               <th>Name</th>
+              <th id="split-col-input">Input</th>
               <th>Share</th>
               <th>Owes</th>
             </tr>

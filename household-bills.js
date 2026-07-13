@@ -1,6 +1,8 @@
 const peopleRowsEl = document.getElementById("people-rows");
 const billRowsEl = document.getElementById("bill-rows");
 
+let peopleMode = "pct";
+
 function fmtMoney(value) {
   if (!isFinite(value)) return "£0.00";
   return "£" + value.toFixed(2);
@@ -11,14 +13,47 @@ function fmtPercent(value) {
   return value.toFixed(1) + "%";
 }
 
+/* ---------- Mode toggle ---------- */
+function setMode(mode) {
+  if (mode === peopleMode) return;
+  peopleMode = mode;
+  document.querySelectorAll('.tab[data-mode]').forEach((tab) => {
+    tab.classList.toggle("active", tab.dataset.mode === mode);
+  });
+
+  document.querySelectorAll('#people-rows [data-field="value"]').forEach((input) => {
+    input.value = "";
+  });
+
+  const isIncome = mode === "income";
+  document.getElementById("people-col-label").textContent = isIncome ? "Income (£)" : "Share %";
+  document.getElementById("people-total-label").textContent = isIncome
+    ? "Total household income"
+    : "Total share entered";
+  document.getElementById("people-mode-hint").textContent = isIncome
+    ? "Each person's share is worked out from their income as a proportion of total household income."
+    : "Shares are split proportionally, so they don't need to add up to exactly 100%.";
+  document.getElementById("split-col-input").textContent = isIncome ? "Income" : "Share entered";
+
+  document.querySelectorAll('#people-rows [data-field="value"]').forEach((input) => {
+    input.placeholder = isIncome ? "e.g. 35000" : "0";
+  });
+
+  calculate();
+}
+
+document.querySelectorAll('.tab[data-mode]').forEach((tab) => {
+  tab.addEventListener("click", () => setMode(tab.dataset.mode));
+});
+
 /* ---------- People ---------- */
-function addPersonRow(name = "", pct = "") {
+function addPersonRow(name = "", value = "") {
   const row = document.createElement("div");
   row.className = "dyn-row";
   row.innerHTML = `
     <span class="row-index">${peopleRowsEl.children.length + 1}</span>
     <input class="grow" type="text" placeholder="Name" value="${name}" data-field="name">
-    <input class="fixed-sm" type="number" placeholder="0" step="any" value="${pct}" data-field="pct">
+    <input class="fixed-sm" type="number" placeholder="0" step="any" value="${value}" data-field="value">
     <button class="btn-remove" type="button" title="Remove">✕</button>
   `;
   row.querySelector(".btn-remove").addEventListener("click", () => {
@@ -54,9 +89,10 @@ function renumber(container) {
 }
 
 function calculate() {
+  const isIncome = peopleMode === "income";
   const people = [...peopleRowsEl.children].map((row, i) => ({
     name: row.querySelector('[data-field="name"]').value || `Person ${i + 1}`,
-    pct: parseFloat(row.querySelector('[data-field="pct"]').value) || 0,
+    value: parseFloat(row.querySelector('[data-field="value"]').value) || 0,
   }));
 
   const bills = [...billRowsEl.children].map((row) => ({
@@ -64,20 +100,24 @@ function calculate() {
     amount: parseFloat(row.querySelector('[data-field="amount"]').value) || 0,
   }));
 
-  const totalPct = people.reduce((sum, p) => sum + p.pct, 0);
+  const totalValue = people.reduce((sum, p) => sum + p.value, 0);
   const totalBills = bills.reduce((sum, b) => sum + b.amount, 0);
 
-  document.getElementById("people-total-pct").textContent = fmtPercent(totalPct);
+  document.getElementById("people-total").textContent = isIncome
+    ? fmtMoney(totalValue)
+    : fmtPercent(totalValue);
   document.getElementById("bills-total").textContent = fmtMoney(totalBills);
 
   const outBody = document.getElementById("split-out-body");
   outBody.innerHTML = "";
   people.forEach((p) => {
-    const share = totalPct !== 0 ? p.pct / totalPct : 0;
+    const share = totalValue !== 0 ? p.value / totalValue : 0;
     const owed = share * totalBills;
+    const inputDisplay = isIncome ? fmtMoney(p.value) : fmtPercent(p.value);
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${p.name}</td>
+      <td>${inputDisplay}</td>
       <td>${fmtPercent(share * 100)}</td>
       <td>${fmtMoney(owed)}</td>
     `;
