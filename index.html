@@ -13,8 +13,13 @@
       <p>A collection of everyday and business calculators.</p>
     </div>
 
-    <div class="hub-group-title">General</div>
-    <div class="hub-grid">
+    <div class="hub-search">
+      <input type="search" id="hub-search" placeholder="Search calculators…" aria-label="Search calculators">
+    </div>
+    <p class="hub-no-results" id="hub-no-results" hidden>No calculators match your search.</p>
+
+    <div class="hub-group-title" data-group>General</div>
+    <div class="hub-grid" data-group-grid>
       <a class="hub-card" href="basic.html">
         <span class="icon">🔢</span>
         <div class="title">Basic Calculator</div>
@@ -32,8 +37,8 @@
       </a>
     </div>
 
-    <div class="hub-group-title">Business &amp; Analysis</div>
-    <div class="hub-grid">
+    <div class="hub-group-title" data-group>Business &amp; Analysis</div>
+    <div class="hub-grid" data-group-grid>
       <a class="hub-card" href="margin-markup.html">
         <span class="icon">📊</span>
         <div class="title">Margin vs Markup</div>
@@ -51,8 +56,8 @@
       </a>
     </div>
 
-    <div class="hub-group-title">Savings &amp; Investing</div>
-    <div class="hub-grid">
+    <div class="hub-group-title" data-group>Savings &amp; Investing</div>
+    <div class="hub-grid" data-group-grid>
       <a class="hub-card" href="cagr.html">
         <span class="icon">🧮</span>
         <div class="title">CAGR</div>
@@ -65,8 +70,8 @@
       </a>
     </div>
 
-    <div class="hub-group-title">Everyday</div>
-    <div class="hub-grid">
+    <div class="hub-group-title" data-group>Everyday</div>
+    <div class="hub-grid" data-group-grid>
       <a class="hub-card" href="tip.html">
         <span class="icon">🍽️</span>
         <div class="title">Tip Calculator</div>
@@ -87,11 +92,31 @@
         <div class="title">Grade / Score</div>
         <div class="desc">Score out of total → % and letter grade, plus weighted averages.</div>
       </a>
+      <a class="hub-card" href="unit-converter.html">
+        <span class="icon">📐</span>
+        <div class="title">Unit Converter</div>
+        <div class="desc">Length, weight, temperature and volume conversions.</div>
+      </a>
+    </div>
+
+    <div class="hub-group-title" data-group>Other</div>
+    <div class="hub-grid" data-group-grid>
+      <a class="hub-card" href="birthday.html">
+        <span class="icon">🎂</span>
+        <div class="title">Birthday Calculator</div>
+        <div class="desc">Your exact age, day of the week born, and days until your next birthday.</div>
+      </a>
+      <a class="hub-card" href="date-diff.html">
+        <span class="icon">📅</span>
+        <div class="title">Date Difference</div>
+        <div class="desc">Years, months and days between two dates.</div>
+      </a>
     </div>
 
     <footer class="site-footer">
       <p>Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.</p>
     </footer>
   </div>
+  <script src="hub-search.js"></script>
 </body>
 </html>
