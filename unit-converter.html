@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Converter</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="back-link" href="index.html">← All calculators</a>
+      <h1 class="page-title">Unit Converter</h1>
+      <p class="page-subtitle">Length, weight, temperature and volume conversions.</p>
+    </header>
+
+    <main class="tool">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="length">Length</button>
+        <button class="tab" data-tab="weight">Weight</button>
+        <button class="tab" data-tab="temp">Temp</button>
+        <button class="tab" data-tab="volume">Volume</button>
+      </div>
+
+      <div class="tab-panel active" data-panel="length">
+        <div class="field-row">
+          <div class="field">
+            <label for="len-value">Value</label>
+            <input type="number" id="len-value" value="1" step="any">
+          </div>
+          <div class="field">
+            <label for="len-from">From</label>
+            <select id="len-from">
+              <option value="mm">Millimeters</option>
+              <option value="cm">Centimeters</option>
+              <option value="m" selected>Meters</option>
+              <option value="km">Kilometers</option>
+              <option value="in">Inches</option>
+              <option value="ft">Feet</option>
+              <option value="yd">Yards</option>
+              <option value="mi">Miles</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="len-to">To</label>
+          <select id="len-to">
+            <option value="mm">Millimeters</option>
+            <option value="cm">Centimeters</option>
+            <option value="m">Meters</option>
+            <option value="km">Kilometers</option>
+            <option value="in">Inches</option>
+            <option value="ft" selected>Feet</option>
+            <option value="yd">Yards</option>
+            <option value="mi">Miles</option>
+          </select>
+        </div>
+        <div class="result-box">
+          <div class="result-hero">
+            <div class="value" id="len-result">0</div>
+            <div class="label" id="len-result-label">Result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="weight">
+        <div class="field-row">
+          <div class="field">
+            <label for="wt-value">Value</label>
+            <input type="number" id="wt-value" value="1" step="any">
+          </div>
+          <div class="field">
+            <label for="wt-from">From</label>
+            <select id="wt-from">
+              <option value="mg">Milligrams</option>
+              <option value="g">Grams</option>
+              <option value="kg" selected>Kilograms</option>
+              <option value="t">Metric tons</option>
+              <option value="oz">Ounces</option>
+              <option value="lb">Pounds</option>
+              <option value="st">Stone</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="wt-to">To</label>
+          <select id="wt-to">
+            <option value="mg">Milligrams</option>
+            <option value="g">Grams</option>
+            <option value="kg">Kilograms</option>
+            <option value="t">Metric tons</option>
+            <option value="oz">Ounces</option>
+            <option value="lb" selected>Pounds</option>
+            <option value="st">Stone</option>
+          </select>
+        </div>
+        <div class="result-box">
+          <div class="result-hero">
+            <div class="value" id="wt-result">0</div>
+            <div class="label" id="wt-result-label">Result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="temp">
+        <div class="field-row">
+          <div class="field">
+            <label for="temp-value">Value</label>
+            <input type="number" id="temp-value" value="0" step="any">
+          </div>
+          <div class="field">
+            <label for="temp-from">From</label>
+            <select id="temp-from">
+              <option value="C" selected>Celsius</option>
+              <option value="F">Fahrenheit</option>
+              <option value="K">Kelvin</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="temp-to">To</label>
+          <select id="temp-to">
+            <option value="C">Celsius</option>
+            <option value="F" selected>Fahrenheit</option>
+            <option value="K">Kelvin</option>
+          </select>
+        </div>
+        <div class="result-box">
+          <div class="result-hero">
+            <div class="value" id="temp-result">0</div>
+            <div class="label" id="temp-result-label">Result</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="volume">
+        <div class="field-row">
+          <div class="field">
+            <label for="vol-value">Value</label>
+            <input type="number" id="vol-value" value="1" step="any">
+          </div>
+          <div class="field">
+            <label for="vol-from">From</label>
+            <select id="vol-from">
+              <option value="ml">Milliliters</option>
+              <option value="l" selected>Liters</option>
+              <option value="m3">Cubic meters</option>
+              <option value="gal-us">US gallons</option>
+              <option value="gal-uk">UK gallons</option>
+              <option value="pt-us">US pints</option>
+              <option value="pt-uk">UK pints</option>
+              <option value="cup-us">US cups</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="vol-to">To</label>
+          <select id="vol-to">
+            <option value="ml">Milliliters</option>
+            <option value="l">Liters</option>
+            <option value="m3">Cubic meters</option>
+            <option value="gal-us" selected>US gallons</option>
+            <option value="gal-uk">UK gallons</option>
+            <option value="pt-us">US pints</option>
+            <option value="pt-uk">UK pints</option>
+            <option value="cup-us">US cups</option>
+          </select>
+        </div>
+        <div class="result-box">
+          <div class="result-hero">
+            <div class="value" id="vol-result">0</div>
+            <div class="label" id="vol-result-label">Result</div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.</p>
+    </footer>
+  </div>
+  <script src="unit-converter.js"></script>
+</body>
+</html>
