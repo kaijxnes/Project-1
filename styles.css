@@ -442,24 +442,52 @@ hr.divider {
 }
 
 .hub-search {
-  margin-bottom: 28px;
+  position: relative;
+  max-width: 440px;
+  margin: 0 auto 32px;
+}
+
+.hub-search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.95rem;
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .hub-search input {
   width: 100%;
-  background: var(--input-bg);
+  background: var(--calc-bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 16px;
+  border-radius: 999px;
+  padding: 13px 18px 13px 44px;
   color: var(--text-main);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-family: inherit;
-  transition: border-color 0.15s ease;
+  text-align: left;
+  box-shadow: 0 8px 20px var(--shadow);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.hub-search input::placeholder {
+  color: var(--text-muted);
 }
 
 .hub-search input:focus {
   outline: none;
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.18);
+}
+
+.hub-search input::-webkit-search-decoration,
+.hub-search input::-webkit-search-cancel-button,
+.hub-search input::-webkit-search-results-button,
+.hub-search input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
 }
 
 .hub-no-results {
