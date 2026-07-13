@@ -91,7 +91,8 @@ body:has(> .page) {
   box-shadow: 0 20px 50px var(--shadow);
 }
 
-.tool + .tool {
+.tool + .tool,
+.calculator + .tool {
   margin-top: 20px;
 }
 
