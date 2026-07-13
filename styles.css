@@ -109,6 +109,17 @@ body:has(> .page) {
   line-height: 1.4;
 }
 
+.about-text {
+  color: var(--text-main);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin: 0 0 14px;
+}
+
+.about-text:last-child {
+  margin-bottom: 0;
+}
+
 /* ---------- Tabs ---------- */
 
 .tabs {
