@@ -2,19 +2,8 @@ const historyEl = document.getElementById("history");
 const currentEl = document.getElementById("current");
 
 let angleMode = "deg";
-
-const OPERATORS = {
-  "+": (a, b) => a + b,
-  "−": (a, b) => a - b,
-  "×": (a, b) => a * b,
-  "÷": (a, b) => (b === 0 ? NaN : a / b),
-  "^": (a, b) => Math.pow(a, b),
-};
-
-let firstOperand = null;
-let pendingOperator = null;
-let displayValue = "0";
-let awaitingSecondOperand = false;
+let expr = "";
+let justEvaluated = false;
 
 function formatNumber(value) {
   if (!isFinite(value)) return "Error";
@@ -22,120 +11,299 @@ function formatNumber(value) {
   return rounded.toString();
 }
 
-function updateDisplay() {
-  currentEl.textContent = displayValue;
-  historyEl.textContent =
-    firstOperand !== null && pendingOperator
-      ? `${formatNumber(firstOperand)} ${pendingOperator}`
-      : "";
+function render() {
+  currentEl.textContent = expr === "" ? "0" : expr;
+}
+
+/* ---------- Tokenizer ---------- */
+function tokenize(source) {
+  const tokens = [];
+  let i = 0;
+  while (i < source.length) {
+    const ch = source[i];
+    if (/\s/.test(ch)) {
+      i++;
+      continue;
+    }
+    if (/[0-9.]/.test(ch)) {
+      let num = "";
+      while (i < source.length && /[0-9.]/.test(source[i])) {
+        num += source[i];
+        i++;
+      }
+      tokens.push({ type: "num", value: parseFloat(num) });
+      continue;
+    }
+    if (source.slice(i, i + 4) === "sqrt") {
+      tokens.push({ type: "func", value: "sqrt" });
+      i += 4;
+      continue;
+    }
+    if (["sin", "cos", "tan", "log"].includes(source.slice(i, i + 3))) {
+      tokens.push({ type: "func", value: source.slice(i, i + 3) });
+      i += 3;
+      continue;
+    }
+    if (source.slice(i, i + 2) === "ln") {
+      tokens.push({ type: "func", value: "ln" });
+      i += 2;
+      continue;
+    }
+    if (ch === "π") {
+      tokens.push({ type: "const", value: "pi" });
+      i++;
+      continue;
+    }
+    if (ch === "e") {
+      tokens.push({ type: "const", value: "e" });
+      i++;
+      continue;
+    }
+    if (ch === "(") {
+      tokens.push({ type: "lparen" });
+      i++;
+      continue;
+    }
+    if (ch === ")") {
+      tokens.push({ type: "rparen" });
+      i++;
+      continue;
+    }
+    if ("+−×÷^%".includes(ch)) {
+      tokens.push({ type: "op", value: ch });
+      i++;
+      continue;
+    }
+    throw new Error("Unexpected character: " + ch);
+  }
+  return tokens;
+}
+
+/* ---------- Recursive-descent parser ---------- */
+function applyFunction(name, arg) {
+  const angle = angleMode === "deg" ? (arg * Math.PI) / 180 : arg;
+  switch (name) {
+    case "sin":
+      return Math.sin(angle);
+    case "cos":
+      return Math.cos(angle);
+    case "tan":
+      return Math.tan(angle);
+    case "log":
+      return arg <= 0 ? NaN : Math.log10(arg);
+    case "ln":
+      return arg <= 0 ? NaN : Math.log(arg);
+    case "sqrt":
+      return arg < 0 ? NaN : Math.sqrt(arg);
+    default:
+      return NaN;
+  }
+}
+
+function evaluate(tokens) {
+  let pos = 0;
+  const peek = () => tokens[pos];
+  const next = () => tokens[pos++];
+
+  function parseExpr() {
+    let value = parseTerm();
+    while (peek() && peek().type === "op" && (peek().value === "+" || peek().value === "−")) {
+      const op = next().value;
+      const rhs = parseTerm();
+      value = op === "+" ? value + rhs : value - rhs;
+    }
+    return value;
+  }
+
+  function parseTerm() {
+    let value = parsePower();
+    while (peek() && peek().type === "op" && (peek().value === "×" || peek().value === "÷")) {
+      const op = next().value;
+      const rhs = parsePower();
+      value = op === "×" ? value * rhs : value / rhs;
+    }
+    return value;
+  }
+
+  function parsePower() {
+    const base = parseUnary();
+    if (peek() && peek().type === "op" && peek().value === "^") {
+      next();
+      return Math.pow(base, parsePower());
+    }
+    return base;
+  }
+
+  function parseUnary() {
+    if (peek() && peek().type === "op" && peek().value === "−") {
+      next();
+      return -parseUnary();
+    }
+    return parsePostfix();
+  }
+
+  function parsePostfix() {
+    let value = parsePrimary();
+    while (peek() && peek().type === "op" && peek().value === "%") {
+      next();
+      value = value / 100;
+    }
+    return value;
+  }
+
+  function parsePrimary() {
+    const tok = peek();
+    if (!tok) throw new Error("Unexpected end of expression");
+    if (tok.type === "num") {
+      next();
+      return tok.value;
+    }
+    if (tok.type === "const") {
+      next();
+      return tok.value === "pi" ? Math.PI : Math.E;
+    }
+    if (tok.type === "func") {
+      next();
+      if (!peek() || peek().type !== "lparen") throw new Error("Expected ( after function");
+      next();
+      const arg = parseExpr();
+      if (!peek() || peek().type !== "rparen") throw new Error("Expected )");
+      next();
+      return applyFunction(tok.value, arg);
+    }
+    if (tok.type === "lparen") {
+      next();
+      const value = parseExpr();
+      if (!peek() || peek().type !== "rparen") throw new Error("Expected )");
+      next();
+      return value;
+    }
+    throw new Error("Unexpected token");
+  }
+
+  const result = parseExpr();
+  if (pos !== tokens.length) throw new Error("Unexpected trailing input");
+  return result;
+}
+
+/* ---------- Input handling ---------- */
+function ensureImplicitMultiply() {
+  if (expr.length === 0) return;
+  if (/[0-9)πe%]$/.test(expr)) {
+    expr += "×";
+  }
 }
 
 function inputNumber(digit) {
-  if (awaitingSecondOperand) {
-    displayValue = digit;
-    awaitingSecondOperand = false;
+  if (justEvaluated) {
+    expr = digit;
+    justEvaluated = false;
   } else {
-    displayValue = displayValue === "0" ? digit : displayValue + digit;
+    expr += digit;
   }
+  render();
 }
 
 function inputDecimal() {
-  if (awaitingSecondOperand) {
-    displayValue = "0.";
-    awaitingSecondOperand = false;
+  if (justEvaluated) {
+    expr = "0.";
+    justEvaluated = false;
+    render();
     return;
   }
-  if (!displayValue.includes(".")) {
-    displayValue += ".";
+  let i = expr.length - 1;
+  while (i >= 0 && /[0-9.]/.test(expr[i])) i--;
+  const segment = expr.slice(i + 1);
+  if (segment.includes(".")) return;
+  expr += segment === "" ? "0." : ".";
+  render();
+}
+
+function inputOperator(op) {
+  justEvaluated = false;
+  expr += op;
+  render();
+}
+
+function inputParen(value) {
+  justEvaluated = false;
+  if (value === "(") {
+    ensureImplicitMultiply();
+    expr += "(";
+  } else {
+    const opens = (expr.match(/\(/g) || []).length;
+    const closes = (expr.match(/\)/g) || []).length;
+    if (opens > closes) expr += ")";
   }
+  render();
 }
 
-function setConstant(value) {
-  displayValue = formatNumber(value);
-  awaitingSecondOperand = false;
+function inputFunction(name) {
+  justEvaluated = false;
+  ensureImplicitMultiply();
+  expr += name + "(";
+  render();
 }
 
-function clearAll() {
-  firstOperand = null;
-  pendingOperator = null;
-  displayValue = "0";
-  awaitingSecondOperand = false;
+function inputSquare() {
+  justEvaluated = false;
+  expr += "^2";
+  render();
 }
 
-function deleteLast() {
-  if (awaitingSecondOperand) return;
-  displayValue = displayValue.length > 1 ? displayValue.slice(0, -1) : "0";
+function inputConstant(name) {
+  justEvaluated = false;
+  ensureImplicitMultiply();
+  expr += name === "pi" ? "π" : "e";
+  render();
 }
 
 function inputPercent() {
-  displayValue = formatNumber(parseFloat(displayValue) / 100);
+  justEvaluated = false;
+  expr += "%";
+  render();
 }
 
-function toRadians(deg) {
-  return (deg * Math.PI) / 180;
+function clearAll() {
+  expr = "";
+  justEvaluated = false;
+  historyEl.textContent = "";
+  render();
 }
 
-function applyUnary(name) {
-  const value = parseFloat(displayValue);
-  const angle = angleMode === "deg" ? toRadians(value) : value;
-  let result;
-  switch (name) {
-    case "sin":
-      result = Math.sin(angle);
-      break;
-    case "cos":
-      result = Math.cos(angle);
-      break;
-    case "tan":
-      result = Math.tan(angle);
-      break;
-    case "sqrt":
-      result = value < 0 ? NaN : Math.sqrt(value);
-      break;
-    case "square":
-      result = value * value;
-      break;
-    case "log":
-      result = value <= 0 ? NaN : Math.log10(value);
-      break;
-    case "ln":
-      result = value <= 0 ? NaN : Math.log(value);
-      break;
-  }
-  displayValue = formatNumber(result);
-  awaitingSecondOperand = false;
-}
-
-function handleOperator(nextOperator) {
-  const inputValue = parseFloat(displayValue);
-
-  if (pendingOperator && awaitingSecondOperand) {
-    pendingOperator = nextOperator;
-    updateDisplay();
-    return;
-  }
-
-  if (firstOperand === null) {
-    firstOperand = inputValue;
-  } else if (pendingOperator) {
-    const result = OPERATORS[pendingOperator](firstOperand, inputValue);
-    displayValue = formatNumber(result);
-    firstOperand = result;
-  }
-
-  pendingOperator = nextOperator;
-  awaitingSecondOperand = true;
-  updateDisplay();
+function deleteLast() {
+  if (expr.length > 0) expr = expr.slice(0, -1);
+  justEvaluated = false;
+  render();
 }
 
 function handleEquals() {
-  if (pendingOperator === null || awaitingSecondOperand) return;
-  const inputValue = parseFloat(displayValue);
-  const result = OPERATORS[pendingOperator](firstOperand, inputValue);
-  displayValue = formatNumber(result);
-  firstOperand = null;
-  pendingOperator = null;
-  awaitingSecondOperand = false;
+  if (expr === "") return;
+
+  let toEval = expr;
+  const opens = (toEval.match(/\(/g) || []).length;
+  const closes = (toEval.match(/\)/g) || []).length;
+  for (let i = 0; i < opens - closes; i++) toEval += ")";
+
+  let result;
+  try {
+    result = evaluate(tokenize(toEval));
+  } catch (e) {
+    result = NaN;
+  }
+
+  if (!isFinite(result)) {
+    historyEl.textContent = toEval + " =";
+    expr = "";
+    justEvaluated = false;
+    currentEl.textContent = "Error";
+    return;
+  }
+
+  historyEl.textContent = toEval + " =";
+  expr = formatNumber(result);
+  justEvaluated = true;
+  render();
 }
 
 function setAngleMode(mode) {
@@ -163,22 +331,28 @@ function handleAction(action, value) {
       inputPercent();
       break;
     case "operator":
-      handleOperator(value);
+      inputOperator(value);
+      break;
+    case "paren":
+      inputParen(value);
       break;
     case "equals":
       handleEquals();
       break;
     case "unary":
-      applyUnary(value);
+      if (value === "square") {
+        inputSquare();
+      } else {
+        inputFunction(value);
+      }
       break;
     case "constant":
-      setConstant(value === "pi" ? Math.PI : Math.E);
+      inputConstant(value);
       break;
     case "angle-mode":
       setAngleMode(value);
       break;
   }
-  updateDisplay();
 }
 
 document.querySelector(".keys").addEventListener("click", (event) => {
@@ -215,6 +389,12 @@ document.addEventListener("keydown", (event) => {
     case "^":
       handleAction("operator", "^");
       break;
+    case "(":
+      handleAction("paren", "(");
+      break;
+    case ")":
+      handleAction("paren", ")");
+      break;
     case "Enter":
     case "=":
       handleAction("equals");
@@ -231,4 +411,4 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-updateDisplay();
+render();
