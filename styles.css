@@ -110,7 +110,7 @@ body:has(> .page) {
 }
 
 .about-text {
-  color: var(--text-main);
+  color: #ffffff;
   font-size: 0.95rem;
   line-height: 1.65;
   margin: 0 0 14px;
