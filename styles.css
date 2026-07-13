@@ -549,6 +549,12 @@ hr.divider {
   line-height: 1.4;
 }
 
+.hub-card[hidden],
+.hub-grid[hidden],
+.hub-group-title[hidden] {
+  display: none;
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
