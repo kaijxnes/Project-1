@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compound Interest Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="back-link" href="index.html">← All calculators</a>
+      <h1 class="page-title">Compound Interest</h1>
+      <p class="page-subtitle">Starting amount, annual return and years → what you'd end up with, compounded monthly.</p>
+    </header>
+
+    <main class="tool">
+      <div class="field-row">
+        <div class="field">
+          <label for="principal">Initial investment</label>
+          <input type="number" id="principal" placeholder="0.00" step="any">
+        </div>
+        <div class="field">
+          <label for="rate">Annual return (%)</label>
+          <input type="number" id="rate" placeholder="0" step="any">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="years">Number of years</label>
+          <input type="number" id="years" placeholder="1" step="any" value="1">
+        </div>
+        <div class="field">
+          <label for="contribution">Monthly contribution</label>
+          <input type="number" id="contribution" placeholder="0.00" step="any">
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="result-hero">
+          <div class="value" id="future-value">£0.00</div>
+          <div class="label">Estimated future value</div>
+        </div>
+        <hr class="divider">
+        <div class="result-grid">
+          <div class="result-row"><span class="r-label">Total contributed</span><span class="r-value" id="total-contributed">£0.00</span></div>
+          <div class="result-row highlight"><span class="r-label">Total interest earned</span><span class="r-value" id="total-interest">£0.00</span></div>
+        </div>
+      </div>
+      <p class="tool-hint" style="margin-top:16px;">Assumes interest compounds monthly and any monthly contribution is added at the end of each month.</p>
+    </main>
+    <footer class="site-footer">
+      <p>Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.</p>
+      <p>Built by <a href="mailto:kaijxnes@gmail.com">Kai Jones</a></p>
+    </footer>
+  </div>
+  <script src="compound-interest.js"></script>
+</body>
+</html>
