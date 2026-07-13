@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Zone Converter</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="back-link" href="index.html">← All calculators</a>
+      <h1 class="page-title">Time Zone Converter</h1>
+      <p class="page-subtitle">Convert a date and time between two time zones, DST included.</p>
+    </header>
+
+    <main class="tool">
+      <div class="field">
+        <label for="tz-datetime">Date &amp; time</label>
+        <input type="datetime-local" id="tz-datetime">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="tz-from">From</label>
+          <select id="tz-from"></select>
+        </div>
+        <div class="field">
+          <label for="tz-to">To</label>
+          <select id="tz-to"></select>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-full" id="tz-now" type="button">Use current time</button>
+
+      <div class="result-box" style="margin-top:16px;">
+        <div class="result-hero">
+          <div class="value" id="tz-result">—</div>
+          <div class="label" id="tz-result-zone">Converted time</div>
+        </div>
+        <hr class="divider">
+        <div class="result-grid">
+          <div class="result-row"><span class="r-label">Difference</span><span class="r-value" id="tz-diff">—</span></div>
+        </div>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>Built with plain HTML, CSS &amp; JavaScript — all calculations run locally in your browser.</p>
+    </footer>
+  </div>
+  <script src="timezone.js"></script>
+</body>
+</html>
