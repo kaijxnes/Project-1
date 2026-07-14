@@ -1,8 +1,8 @@
 let confidenceLevel = 95;
+let rowId = 0;
 
-function num(id) {
-  return parseFloat(document.getElementById(id).value) || 0;
-}
+const rowsEl = document.getElementById("variant-rows");
+const outBody = document.getElementById("ab-out-body");
 
 /* Abramowitz & Stegun 7.1.26 approximation, accurate to ~1.5e-7 */
 function erf(x) {
@@ -39,15 +39,34 @@ function showError(message) {
   errorEl.style.display = message ? "block" : "none";
 }
 
-function resetResults() {
-  document.getElementById("ab-rate-a").textContent = "—";
-  document.getElementById("ab-rate-b").textContent = "—";
-  document.getElementById("ab-uplift").textContent = "—";
-  document.getElementById("ab-zscore").textContent = "—";
-  document.getElementById("ab-pvalue").textContent = "—";
-  const verdictEl = document.getElementById("ab-verdict");
-  verdictEl.textContent = "—";
-  verdictEl.style.color = "";
+function addVariantRow(name, visitors = "", conversions = "") {
+  rowId += 1;
+  const isControl = rowsEl.children.length === 0;
+  const row = document.createElement("div");
+  row.className = "dyn-row";
+  row.dataset.id = rowId;
+  row.innerHTML = `
+    <span class="row-index">${rowsEl.children.length + 1}</span>
+    <input class="grow" type="text" placeholder="e.g. Variant B" value="${name}" data-field="name">
+    <input class="fixed-sm" type="number" placeholder="0" min="0" step="1" value="${visitors}" data-field="visitors">
+    <input class="fixed-sm" type="number" placeholder="0" min="0" step="1" value="${conversions}" data-field="conversions">
+    ${isControl ? '<span style="width:34px"></span>' : '<button class="btn-remove" type="button" title="Remove">✕</button>'}
+  `;
+  const removeBtn = row.querySelector(".btn-remove");
+  if (removeBtn) {
+    removeBtn.addEventListener("click", () => {
+      row.remove();
+      renumber();
+      recalculate();
+    });
+  }
+  rowsEl.appendChild(row);
+}
+
+function renumber() {
+  [...rowsEl.children].forEach((row, i) => {
+    row.querySelector(".row-index").textContent = i + 1;
+  });
 }
 
 function setConfidence(level) {
@@ -55,64 +74,88 @@ function setConfidence(level) {
   document.querySelectorAll(".tab[data-confidence]").forEach((tab) => {
     tab.classList.toggle("active", Number(tab.dataset.confidence) === level);
   });
-  calculate();
+  recalculate();
 }
 
 document.querySelectorAll(".tab[data-confidence]").forEach((tab) => {
   tab.addEventListener("click", () => setConfidence(Number(tab.dataset.confidence)));
 });
 
-function calculate() {
-  const visitorsA = num("a-visitors");
-  const conversionsA = num("a-conversions");
-  const visitorsB = num("b-visitors");
-  const conversionsB = num("b-conversions");
+function recalculate() {
+  const rows = [...rowsEl.children].map((row) => ({
+    name: row.querySelector('[data-field="name"]').value.trim() || `Variant ${row.querySelector(".row-index").textContent}`,
+    visitors: parseFloat(row.querySelector('[data-field="visitors"]').value) || 0,
+    conversions: parseFloat(row.querySelector('[data-field="conversions"]').value) || 0,
+    hasVisitorsInput: row.querySelector('[data-field="visitors"]').value !== "",
+  }));
 
-  document.getElementById("ab-confidence-label").textContent = confidenceLevel + "%";
+  outBody.innerHTML = "";
 
-  if (visitorsA < 0 || conversionsA < 0 || visitorsB < 0 || conversionsB < 0) {
-    showError("Values can't be negative.");
-    resetResults();
+  if (rows.length < 2) {
+    showError("Add at least one variant to compare against the control.");
+    document.getElementById("control-rate").textContent = "—";
     return;
   }
-  if (conversionsA > visitorsA || conversionsB > visitorsB) {
-    showError("Conversions can't exceed visitors.");
-    resetResults();
-    return;
+
+  for (const r of rows) {
+    if (r.visitors < 0 || r.conversions < 0) {
+      showError("Values can't be negative.");
+      document.getElementById("control-rate").textContent = "—";
+      return;
+    }
+    if (r.conversions > r.visitors) {
+      showError("Conversions can't exceed visitors.");
+      document.getElementById("control-rate").textContent = "—";
+      return;
+    }
   }
-  if (visitorsA === 0 || visitorsB === 0) {
-    showError("Enter visitor counts for both variants.");
-    resetResults();
+
+  if (rows.some((r) => r.visitors === 0)) {
+    showError("Enter visitor counts for every row.");
+    document.getElementById("control-rate").textContent = "—";
     return;
   }
 
   showError("");
 
-  const rateA = conversionsA / visitorsA;
-  const rateB = conversionsB / visitorsB;
-  const uplift = rateA !== 0 ? ((rateB - rateA) / rateA) * 100 : rateB > 0 ? Infinity : 0;
-
-  const pooled = (conversionsA + conversionsB) / (visitorsA + visitorsB);
-  const se = Math.sqrt(pooled * (1 - pooled) * (1 / visitorsA + 1 / visitorsB));
-  const z = se !== 0 ? (rateB - rateA) / se : 0;
-  const pValue = twoTailedPValue(z);
+  const control = rows[0];
+  const controlRate = control.conversions / control.visitors;
+  document.getElementById("control-name-label").textContent = `${control.name} conversion rate`;
+  document.getElementById("control-rate").textContent = (controlRate * 100).toFixed(2) + "%";
 
   const alpha = 1 - confidenceLevel / 100;
-  const significant = pValue < alpha;
 
-  document.getElementById("ab-rate-a").textContent = (rateA * 100).toFixed(2) + "%";
-  document.getElementById("ab-rate-b").textContent = (rateB * 100).toFixed(2) + "%";
-  document.getElementById("ab-uplift").textContent = isFinite(uplift) ? fmtPercent(uplift) : "—";
-  document.getElementById("ab-zscore").textContent = z.toFixed(2);
-  document.getElementById("ab-pvalue").textContent = pValue.toFixed(4);
+  rows.slice(1).forEach((variant) => {
+    const rate = variant.conversions / variant.visitors;
+    const uplift = controlRate !== 0 ? ((rate - controlRate) / controlRate) * 100 : rate > 0 ? Infinity : 0;
 
-  const verdictEl = document.getElementById("ab-verdict");
-  verdictEl.textContent = significant ? "Significant" : "Not significant";
-  verdictEl.style.color = significant ? "var(--good)" : "var(--bad)";
+    const pooled = (control.conversions + variant.conversions) / (control.visitors + variant.visitors);
+    const se = Math.sqrt(pooled * (1 - pooled) * (1 / control.visitors + 1 / variant.visitors));
+    const z = se !== 0 ? (rate - controlRate) / se : 0;
+    const pValue = twoTailedPValue(z);
+    const significant = pValue < alpha;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${variant.name}</td>
+      <td>${(rate * 100).toFixed(2)}%</td>
+      <td class="${uplift > 0 ? "pos" : uplift < 0 ? "neg" : ""}">${isFinite(uplift) ? fmtPercent(uplift) : "—"}</td>
+      <td>${z.toFixed(2)}</td>
+      <td>${pValue.toFixed(4)}</td>
+      <td class="${significant ? "pos" : "neg"}">${significant ? "Significant" : "Not significant"}</td>
+    `;
+    outBody.appendChild(tr);
+  });
 }
 
-["a-visitors", "a-conversions", "b-visitors", "b-conversions"].forEach((id) => {
-  document.getElementById(id).addEventListener("input", calculate);
+document.getElementById("add-variant").addEventListener("click", () => {
+  const nextLetter = String.fromCharCode(65 + rowsEl.children.length);
+  addVariantRow(`Variant ${nextLetter}`);
+  recalculate();
 });
 
-resetResults();
+rowsEl.addEventListener("input", recalculate);
+
+addVariantRow("Control");
+addVariantRow("Variant B");
+recalculate();
